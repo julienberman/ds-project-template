@@ -65,18 +65,43 @@ replace_token() {
   done < <(
     find "$root_dir" \
       -path "$root_dir/.git" -prune -o \
-      -path "$root_dir/.next" -prune -o \
       -path "$root_dir/.venv" -prune -o \
-      -path "$root_dir/node_modules" -prune -o \
       -path "$root_dir/__pycache__" -prune -o \
-      -path "$root_dir/backend/.venv" -prune -o \
-      -path "$root_dir/frontend/.next" -prune -o \
-      -path "$root_dir/frontend/node_modules" -prune -o \
       -type f -print0
   )
 
   echo "Scanned $scanned files"
   echo "Updated $updated files"
+}
+
+create_datastore_dirs() {
+  local root_dir="$1"
+
+  mkdir -p "$root_dir/datastore/raw" "$root_dir/datastore/output"
+  echo "Ensured datastore directories"
+}
+
+setup_uv_project() {
+  local root_dir="$1"
+
+  if [[ ! -f "$root_dir/pyproject.toml" ]]; then
+    echo "No pyproject.toml found; skipping uv setup."
+    return 0
+  fi
+
+  (
+    cd "$root_dir"
+
+    if [[ -f ".python-version" ]]; then
+      uv python install
+    fi
+
+    uv lock
+
+    uv sync --locked
+  )
+
+  echo "Created uv.lock and synced the uv environment"
 }
 
 main() {
@@ -88,15 +113,19 @@ main() {
   local project_slug="$1"
   validate_slug "$project_slug"
 
+  local root_dir
+  root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+  create_datastore_dirs "$root_dir"
+
   if [[ "$project_slug" == "$DEFAULT_TOKEN" ]]; then
     echo "Project slug matches template token; nothing to replace."
     exit 0
   fi
 
-  local root_dir
-  root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
   replace_token "$root_dir" "$project_slug"
+
+  setup_uv_project "$root_dir"
 }
 
 main "$@"

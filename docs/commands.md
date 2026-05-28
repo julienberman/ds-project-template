@@ -8,5 +8,4 @@ Run lint, typecheck, and format checks using `uv`.
 - `uv run ruff check .` runs lint checks.
 - `uv run ruff format --check .` runs format checks.
 - `uv run ruff format .` runs format.
-- `uv run ruff mypy .` runs typechecks.
-
+- `uv run mypy .` runs typechecks.

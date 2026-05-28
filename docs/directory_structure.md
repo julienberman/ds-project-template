@@ -1,20 +1,27 @@
 # Directory Structure
 
-This file provides the high-level tree for the repository.
+This file provides the canonical high-level tree for the repository.
 
+## Directory tree
 ```text
 ds-project-template/
-|-- AGENTS.md
-|-- README.md
-|-- pyproject.toml
-|-- .env.example
-|-- .github/
-|   `-- workflows/
-|       `-- ci.yml
+|-- datastore/
+|   |-- output/
+|   `-- raw/
 |-- docs/
-|   |-- style.md
-|   |-- decisions.md
-|   |-- directory_structure.md
+|-- output/
+|   `-- analysis/
+|-- pyproject.toml
+|-- source/
+`-- |-- analysis/
+    `-- derived/
 ```
 
+## Directory descriptions
 
+- `source/` contains project scripts.
+- `datastore/` contains local data and is ignored by Git.
+- `datastore/raw/` contains input data.
+- `datastore/output/` contains derived data.
+- `output/` contains project outputs, including figures and tables.
+- `docs/` contains project documentation.

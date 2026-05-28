@@ -4,7 +4,9 @@ This file defines mandatory operating rules for any coding agent working in this
 
 ## Project Overview
 
-[PROJECT OVERVIEW GOES HERE]
+This repository is a template for data science projects. Source scripts live in
+`source/`, local data lives in `datastore/`, and committed analysis artifacts
+live in `output/`.
 
 ## Documentation
 
@@ -15,7 +17,6 @@ This file defines mandatory operating rules for any coding agent working in this
 - `docs/style.md` - contains naming rules, file conventions, layering expectations, and code style requirements.
 
 #### Architecture
-- `docs/data.md` - contains the database and object storage model, domain ownership, and environment mapping.
 - `docs/directory_structure.md` - contains the canonical ascii file tree and purpose of each directory.
 
 ### Maintenance policy
